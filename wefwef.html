@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+
+	
+        function b(){
+            var width;
+            var height;
+            var size; //기준사이즈
+            var loss = 1.15; //로스율 %
+            var margin = 1.2 //마진
+            var multi //배수	
+            
+            width = Number(document.getElementById("width1").value);
+            height = Number(document.getElementById("height1").value);
+            
+            if(width > 39 && height >39){ // 1자리 올림
+                width = Math.ceil(width/10)*10;;
+                height = Math.ceil(height/10)*10;;
+            }
+            
+            if(height > 120 && width> 120){
+                alert("가로 120 세로 300까지 입력 가능합니다.");
+                document.getElementById("width1").value = 120;
+            }
+        
+            if(width < height){size = width;}else{size = height;} // 기준 사이즈 결정	
+        
+            
+            switch(true){
+                case(size<40 && width > 9 && height > 9 ):
+                    //alert("최소 사이즈는 40cm입니다.");   
+                    return 0;
+                    break;                                        	
+                case(size>39 && size<50):
+                    size = 40;
+                    multi = 2.491;
+                    break;
+                case(size<60):
+                    size = 50;
+                    multi = 2.029;
+                    break;
+                case(size<70):
+                    size = 60;
+                    multi = 1.8116;
+                    break;
+                case(size<80):
+                    size = 70;
+                    multi = 1.6563;
+                    break;
+                case(size<90):
+                    size = 80;
+                    multi = 1.5399;
+                    break;
+                case(size<100):
+                    size = 90;
+                    multi = 1.5298;
+                    break;
+                case(size<110):
+                    size = 100;
+                    multi = 1.8116;
+                    break;
+                case(size<120):
+                    size = 110;
+                    multi = 1.7128;
+                    break;
+                case(size<130):
+                    size = 120;
+                    multi = 1.57007;
+                                default:
+                    size = 120;
+                    multi = 1.57007;
+            }				
+            
+            //alert(width + "/" + height + "/" + size);
+            
+            var amount = width * height * multi * loss * margin;
+            
+            amount = Math.ceil(amount/100)*100; //올림
+            //amount = Math.floor(amount/100)*100; //버림
+            //amount = Math.round(amount/100)*100; //반올림
+            
+            var amount_1_45 = Math.ceil(amount*1.45/100)*100;
+            var amount_1_45_0_95 = Math.ceil(amount_1_45*0.95/100)*100;
+            var amount_1_45_1_5 = Math.ceil(amount_1_45*1.5/100)*100;
+            var amount_0_8 = Math.ceil(amount*0.8/100)*100;	
+            
+            
+            var last_amount = amount ;  //최종금액	
+            var last_amount_1_45 = amount_1_45 ; 
+            var last_amount_1_45_0_95 = amount_1_45_0_95 ;
+            var last_amount_1_45_1_5 = amount_1_45_1_5 ;
+            var last_amount_0_8 = amount_0_8 ;
+             
+            
+            var last_cnt = Math.round(last_amount / 1000); // 구매수량
+            var last_cnt_1_45 = Math.round(last_amount_1_45 / 1000);
+            var last_cnt_1_45_0_95 = Math.round(last_amount_1_45_0_95 / 1000);
+            var last_cnt_1_45_1_5 = Math.round(last_amount_1_45_1_5 / 1000);
+            var last_cnt_0_8 = Math.round(last_amount_0_8 / 1000);
+            
+            /*
+            벨크로우레탄 - 벨크로pvc 대비 70% 상승
+            자석방풍막 0.5T - 벨크로pvc 대비 70%상승
+            자석방풍막 1T - 자석방풍막 0.5T 대비 60%상승
+            자석방풍막 2T - 자석방풍막 0.5T 대비 120% 상승
+            PVC 비닐만구매 - 벨크로pvc 대비 20% 감소
+            우레탄비닐만구매 - 벨크로pvc대비 20% 감소	
+            */
+            
+            
+            if(width > 39 && height > 39 ){
+                document.getElementById("result_data").style.display = "";
+                document.getElementById("result_data_none").style.display = "none";
+                
+                //일반2mm
+                document.getElementById("data_1_2").innerHTML = last_amount.toLocaleString();// +" "+ width +" "+ height +" "+ multi +" "+ loss +" "+ margin;
+                //document.getElementById("data_1_2").innerHTML = last_amount +" "+ width +" "+ height +" "+ multi +" "+ loss +" "+ margin+" "+ size;
+                document.getElementById("data_1_1").innerHTML = last_cnt;
+                
+                //일반3mm
+                document.getElementById("data_2_2").innerHTML = last_amount_1_45.toLocaleString();
+                document.getElementById("data_2_1").innerHTML = last_cnt_1_45;
+                
+                //항균2mm
+                document.getElementById("data_3_2").innerHTML = last_amount_1_45_0_95.toLocaleString();
+                document.getElementById("data_3_1").innerHTML = last_cnt_1_45_0_95;
+                
+                //항균3mm
+                document.getElementById("data_4_2").innerHTML = last_amount_1_45_1_5.toLocaleString();
+                document.getElementById("data_4_1").innerHTML = last_cnt_1_45_1_5;
+                
+            }else{
+                document.getElementById("result_data").style.display = "none";
+                document.getElementById("result_data_none").style.display = "";
+                document.getElementById("result_data_none").innerHTML = "가로 세로 모두 40 이상 입력하세요.";		
+                
+            }
+        }
+        
+        </script>
+    <style>
+        p{	display:block;}
+        .result_data_none{
+            position:absolute;
+            margin-top:250px;
+            width:750px;
+            height:100px;
+            margin-left:35px;
+            background-color:#FFF;
+            font-size:30px;
+            text-align:center;
+            color:red;
+            padding-top:50px;
+            border:solid 2px #666
+        }
+        .result_data{
+            position:absolute;
+            margin-top:290px;
+            width:750px;
+            height:400px;
+            margin-left:20px;
+        }
+        
+        .result_data li{
+            display: flex; 
+            list-style: none;
+            height:42px;
+        }
+        
+        .result_data p{
+            text-align:center;
+            width:30%;
+            margin-top:9px;
+            font-size:30px;
+            text-align:center;
+            font-weight:600;
+        }
+        .table_head{
+            font-weight:600;
+        }
+        </style>
+</head>
+<body marginwidth="20" marginheight="0">
+
+    <img src="https://cleanfive1.godohosting.com/mijee/auto/auto.jpg" style="position:absolute;">
+    <input type="text" id="width1" onkeyup="b()" style="border:0 solid black;position:absolute;margin-top:125px;width:125px;height:55px;margin-left:260px;font-size:30px;text-align:center;">
+    <input type="text" id="height1" onkeyup="b()" style="border:0 solid black;position:absolute;margin-top:124px;width:125px;height:55px;margin-left:505px;font-size:30px;text-align:center;">
+    <div id="result_data_none" class="result_data_none" style="display:none">
+    
+    </div>
+    
+    <div id="result_data" class="result_data" style="display:none">
+        <ul>
+            <li class="table_head" style="display:none">
+                <p><!-- 옵션 --></p>
+                <p>최종금액</p>
+                <p>구매수량</p>
+            </li>
+            <li>
+                <p style="width:500px;"><!-- 벨크로PVC --></p>
+                <p id="data_1_1">0</p>
+                <p id="data_1_2">0</p>
+            </li>
+            <li>
+                <p style="width:500px;"><!-- 벨크로 우레탄 --></p>
+                <p id="data_2_1">0</p>
+                <p id="data_2_2">0</p>
+            </li>
+            <li>
+                <p style="width:500px;"><!-- 자석방풍막 0.5T --></p>
+                <p id="data_3_1">0</p>
+                <p id="data_3_2">0</p>
+            </li>
+            <li>
+                <p style="width:500px;"><!-- 자석방풍막 1T --></p>
+                <p id="data_4_1">0</p>
+                <p id="data_4_2">0</p>
+            </li>
+                
+        </ul>
+    
+    </div>
+    
+    
+    
+    </body>
+</html>
