@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/4f85b2378a.js" crossorigin="anonymous"></script>
+    <title>질문 등록 페이지</title>
+
+    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+
+    <style>
+        .material-symbols-outlined {
+            color:#fff;
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 48
+          
+        }
+        </style>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        .wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .user-container {
+            background: #15181d;
+            color: #fff;
+            flex: 0.7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight:700;
+        }
+
+        .user-container label {
+            font-size: 14px;
+            margin-right: 1rem;
+        }
+
+        .user-container input {
+            border-radius: 3px;
+            border: none;
+            height: 100%;
+            margin: 0 20px;
+            padding: 0 10px;
+            background: #0b6aef;
+            color: #fff;
+        }
+
+        .user-container select{
+            height: 30px;
+            padding: 0 10px;
+            border-radius: 3px;
+            border: none;
+        }
+
+        /* 채팅이 이루어지는 부분 */
+        .display-container {
+            flex: 18;
+            background: #2a3038;
+            overflow-y: scroll;
+            padding: 0 20px;
+        }
+
+        /*밑에 전송바*/
+        .input-container {
+            flex: 1;
+            display: flex;
+            justify-content: stretch;
+            align-items: center;
+            background: #15181d;  
+            padding: 0 20px;
+
+        }
+
+        .input-container span {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.3rem;
+            width: 100%;          
+            color: #fff;
+        }
+        .input-container input + label{
+            color: #fff;
+            font-size: 10px;
+            /* width: 100px; */
+            display: flex;
+            align-items: center;
+            /* justify-content: right; */
+        }
+
+        .input-container input[type="checkbox"]{display: none;}
+        .input-container input[type="checkbox"] + label i{font-size: 16px; margin-left: 10px; width: 25px; text-align: center;}
+        .input-container input[type="checkbox"] + label i.fa-eye{display: block;}
+        .input-container input[type="checkbox"] + label i.fa-eye-slash{display: none;}
+        .input-container input[type="checkbox"]:checked + label i.fa-eye{display: none;}
+        .input-container input[type="checkbox"]:checked + label i.fa-eye-slash{display: block;}        
+
+        .input-container
+
+        /*입력하는 부분 디자인 */
+
+        .chatting-input {
+            font-size: 16px;
+            height: 43px;
+            flex: 8;
+            border: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            padding: 8px 20px;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .send-button {
+            flex: 1;
+            background: #0b6aef;
+            color: #fff;
+            border: none;
+            height: 43px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .chatting-list li {
+            width: auto;
+            padding: 0.3rem;
+            display: flex;
+            align-items: flex-end;
+            margin-top: 0.4rem;
+        }
+
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* flex: 1; */
+        }
+
+        .profile .user {
+            font-size: 12px;
+            color: #fff;
+
+        }
+
+        .profile .image {
+            border-radius: 50%;
+            object-fit: cover;
+            width: 50px;
+            height: 50px;
+        }
+
+        .message {
+            border-radius: 5px;
+            padding: 0.5rem;
+            font-size: 12px;
+            margin: 0 10px;
+            /* flex: 7; */
+            max-width: 320px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight:300;
+        }
+        .chatting-list li .input_like{
+            height: 20px;
+            width:20px;
+            cursor: pointer;
+            position:relative;
+            background:none;
+            transition:all 0.2s;
+            margin-right:5px;
+        }
+        .chatting-list li input:active{
+            transform:scale(1.5);
+        }
+        .chatting-list li .input_like.ani{
+            transform:scale(1.1);
+            color:#dfe227;
+            font-variation-settings:
+          'FILL' 1,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 48
+          
+        }
+        /*.chatting-list li input::before{
+            content:"👍";
+            position: absolute;
+            top: -3px;
+            width:100%;
+            height:100%;
+            visibility: visible;
+        }*/
+        .chatting-list li input[type="checkbox"]{width: 0; height: 0; background: #00000000 no-repeat center center; cursor: pointer; outline: none; appearance: none; }
+        .chatting-list li input[type="checkbox"]:checked{width: 0; height: 0; background: #00000000 no-repeat center center; cursor: pointer; outline: none; appearance: none;}
+        .chatting-list li input:acitve::before{
+            transform:scale(1.5);
+            opacity:0.5;
+        }
+        .table_vote_num{
+            color: #dfe227; 
+            font-weight: bold;
+            margin-left: 5px;
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        .time {
+            font-size: 12px;
+            margin: 0.5px;
+            margin-left: 5px;
+            color: #fff;
+        }
+
+        /* 메세지 받는거 거꾸로 받을 수 있도록 */
+        .sent {
+            flex-direction: row-reverse;
+            /* float: right; */
+        }
+
+        .sent .message {
+
+            background: #0b6aef;
+            color: #fff;
+        }
+
+
+        .received .message {
+
+            background: #fff;
+        }
+        .chatting-list li.received  .input_like{
+            margin-left:5px;
+            margin-right:0;
+        }
+
+
+        /* 반응형 720px */
+        @media screen and (max-width:720px){
+
+.profile .user{width:32px; display:block;}
+        }
+
+
+
+/* 반응형  450px 부터*/
+
+@media screen and (max-width:450px){
+    .profile .user{width:32px; display:block;}
+    .message{margin:0 5px;}
+    .time{margin-left: 2.5px;}
+    .chatting-list li .input_like{margin-right:2.5px;}
+    .chatting-list li.received  .input_like{margin-left:2.5px;margin-right:0;}
+    .input-container .chatting-input{flex:4;}
+}
+
+
+    </style>
+</head>
+
+<body onload="
+init();
+">
+    <span id="room_id" style="display: none"></span>
+    <div class="wrapper">
+        <div class="user-container">
+            
+            <!-- 방제목은 왼쪽, 이름은 오른쪽에 정렬  -->
+            <div class="room">
+                <span>방 제목 :  </span>
+                <span id="room_name"></span>
+            </div>
+            <div class="user_info">
+                <span id="user_name"></span> 님 환영합니다
+            </div>
+            
+
+
+            <!-- <input type="submit" value="질문목록갱신" onclick="refreshQuestion();">
+            <select onchange="refreshQuestion()">
+                <option selected value="">정렬기준</option> 
+                <option value="late">최신순</option>
+                <option value="vote">투표순</option>
+            </select> -->
+        </div>
+
+        <div class="display-container" id="chat_container">
+            <ul class="chatting-list">
+                <li class="sent"><span class="table_index" style="display:none"></span><span class="profile"><span class="user">학생1</span></span><span id="table_qid" style="display : none"></span><span class="message">
+                    교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다<br/>교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다
+                </span><span class="time">12:10</span><input type="checkbox" class="material-symbols-outlined input_like" id="thumb_up"><label class="material-symbols-outlined input_like" for="thumb_up" onclick="thumb_up(this.parentNode);">thumb_up</label><span class="table_vote_num" id="table_vote_num">3</span>
+                </li>
+                <li class="received"><span class="table_index" style="display:none"></span><span class="profile"><span class="user">학생1</span></span><span id="table_qid" style="display : none"></span><span class="message">
+                    교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다<br/>교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다
+                </span><span class="time">12:10</span><input type="checkbox" class="material-symbols-outlined input_like" id="thumb_up"><label class="material-symbols-outlined input_like" for="thumb_up" onclick="thumb_up(this.parentNode);">thumb_up</label><span class="table_vote_num" id="table_vote_num">3</span>
+                </li>
+                <li class="sent"><span class="table_index" style="display:none"></span><span class="profile"><span class="user">학생1</span></span><span id="table_qid" style="display : none"></span><span class="message">
+                        교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다<br/>교수님 퓨리에 변환이 어렵습니다교수님 퓨리에 변환이 어렵습니다
+                    </span><span class="time">12:10</span><input type="checkbox" class="material-symbols-outlined input_like" id="thumb_up"><label class="material-symbols-outlined input_like" for="thumb_up" onclick="thumb_up(this.parentNode);">thumb_up</label><span class="table_vote_num" id="table_vote_num">3</span>
+                </li>                
+            </ul>
+        </div>
+            
+
+        <div class="input-container">
+            <span>
+                <textarea type="text" class="chatting-input" id="question_text" onkeypress="javascript:if(event.keyCode==13) {searchOnclickSubmit()}" value = ""></textarea>
+                <button class="send-button" onclick="messegeSend();">전송</button>
+            </span>
+            <input type="checkbox" id="check_box" >
+            <label for="check_box"><i class="fas fa-eye"></i><i class="fas fa-eye-slash"></i></label>
+        </div>
+    </div>
+
+    
+
+    <script>
+        function init() {
+            var params = new URL(window.location.href).searchParams;
+            roomid = params.get('room');
+            userName = params.get('userName');
+            // console.log(roomid);
+            // console.log(userName);
+
+            var pageRoomId = document.querySelector('#room_id');
+            var pageUserName = document.querySelector('#user_name');
+
+            pageRoomId.innerHTML = roomid;
+            pageUserName.innerHTML = userName;
+
+            getRoomName(roomid, (response) => {
+                var roomName = document.querySelector('#room_name');
+                roomName.innerHTML = response.payload.roomName;
+            })
+            refreshQuestion();
+            
+
+            // intervalId = setInterval(refreshQuestion, 1000);
+        }
+        
+        function thumb_up(self) {
+            console.log(self)
+            for(i=0;i<6; i++){
+                var th = self.childNodes[i]
+                console.log(th)
+            }
+            var th = self.childNodes[6]
+            console.log(th)
+            if (!th.classList.contains('ani')) {
+                self.childNodes[5].checked = true
+                th.classList.add('ani')
+                console.log('실행')
+            } else {
+                self.childNodes[5].checked = false
+                th.classList.remove('ani')
+            }
+            vote(self)
+        }
+        
+        
+        var myStorage = window.sessionStorage;
+        function searchOnclickSubmit() {
+            messegeSend();
+        }
+
+        function messegeSend() {
+            var roomId = document.querySelector('#room_id').textContent;
+            var text = document.querySelector('#question_text').value;
+            var userName = document.querySelector('#user_name').textContent;
+            var is_checked = document.getElementById('check_box').checked;
+
+
+            if (text !== "") {
+                addQuestion(roomId, userName, text, is_checked, (response) => {
+                    console.log(response.status);
+                    console.log(response.payload.qid);
+
+                    refreshQuestion();
+                    document.querySelector('#question_text').value = "";
+
+                    // var displayContainer = document.querySelector('#chat_container');
+                    // displayContainer.scrollTop = displayContainer.scrollHeight;
+                });
+            }
+
+            
+            
+        }
+
+
+        function createElementFromHTML(htmlString) {
+            var tr = document.createElement('ul');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('li');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('span');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('img');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('input');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('label');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            var tr = document.createElement('div');
+            tr.innerHTML = htmlString.trim();
+            if (tr.firstChild)
+                return tr.firstChild;
+
+            return undefined;
+        }
+
+        function refreshQuestion() {
+            var roomid = document.querySelector('#room_id').textContent;
+            getList(roomid, (response) => {
+                var ul = createElementFromHTML('<ul class="chatting-list"></ul>');
+                // var userName = document.querySelector('#user_name').textContent;
+                var pageUserName = document.querySelector('#user_name').textContent;
+                var questionIndex = 1;
+                var map
+                for (var question of response.payload.questions) {
+                    if(question.userName == pageUserName){
+                        var li = createElementFromHTML('<li class="sent"></li>');
+                    } else {
+                        var li = createElementFromHTML('<li class="received"></li>');
+                    }
+
+                    var ind = createElementFromHTML('<span class="table_index" style="display:none"></span>');
+                    ind.innerHTML = questionIndex;
+                    li.appendChild(ind);
+
+                    var profile = createElementFromHTML('<span class="profile"></span>');
+
+                    // var pageUserName = document.querySelector('#user_name').textContent;
+                    if (!question.isSecret || question.userName == pageUserName) {
+                        var userName = createElementFromHTML(`<span class="user" id="table_user_name${questionIndex}"></span>`);
+                        userName.innerHTML = question.userName;
+                        profile.appendChild(userName);
+                    } else {
+                        var userName = createElementFromHTML(`<span class="user" id="table_user_name${questionIndex}"></span>`);
+                        userName.innerHTML = '***';
+                        profile.appendChild(userName);
+                    }
+                    li.appendChild(profile);
+
+                    var qid = createElementFromHTML(`<span id="table_qid${questionIndex}" style="display : none"></span>`);
+                    qid.innerHTML = question.qid;
+                    li.appendChild(qid);
+
+                    var text = createElementFromHTML(`<span class="message" id="table_text${questionIndex}"></span>`);
+                    text.innerHTML = question.text;
+                    li.appendChild(text);
+
+                    var time = createElementFromHTML(`<span class="time" ></span>`);
+                    time.innerHTML = question.date.substr(11, 5);
+                    li.appendChild(time);
+
+                    // var div = createElementFromHTML('<div ></div>');
+
+                    if (myStorage.getItem('vote_check' + questionIndex) == 'true') {
+                        var vote = createElementFromHTML(`<input type="checkbox" class="material-symbols-outlined input_like ani" id="vote_check${questionIndex}" checked>
+                            `);
+                        li.appendChild(vote);
+                        var thumb_up = createElementFromHTML(`<label class="material-symbols-outlined input_like ani" for="vote_check${questionIndex}" onclick="thumb_up(this.parentNode)">thumb_up</label>
+                            `);
+                        li.appendChild(thumb_up);
+                            
+                    } else {
+                        var vote = createElementFromHTML(`<input type="checkbox" class="material-symbols-outlined input_like" id="vote_check${questionIndex}">
+                            `);
+                        li.appendChild(vote);
+                        var thumb_up = createElementFromHTML(`<label class="material-symbols-outlined input_like" for="vote_check${questionIndex}" onclick="thumb_up(this.parentNode)">thumb_up</label>
+                            `);
+                        li.appendChild(thumb_up);
+                    }
+                    // li.appendChild(div);
+
+                    var voteNum = createElementFromHTML(`<span 
+                    class="table_vote_num"
+                    id="table_vote_num${questionIndex}" ></span>`);
+                    voteNum.innerHTML = question.votes;
+                    li.appendChild(voteNum);
+
+                    ul.appendChild(li);
+                    questionIndex++
+                }
+
+                
+                var container = document.querySelector('#chat_container');
+                container.replaceChildren(ul);
+
+                var displayContainer = document.querySelector('#chat_container');
+                displayContainer.scrollTop = displayContainer.scrollHeight;
+            });
+            
+        }
+
+    </script>
+
+    <script>
+        var myStorage = window.sessionStorage;
+        var roomid;
+        var userName;
+        var intervalId;
+        
+        function vote(self) {
+            var index = self.childNodes[0].textContent;
+            var qid = document.querySelector(`#table_qid${index}`);
+            var checkBox = document.querySelector(`#vote_check${index}`);
+            var voteNum = document.querySelector(`#table_vote_num${index}`);
+
+            if (checkBox.checked == true) {
+                sessionStorage.setItem(`vote_check${index}`, 'true');
+
+            } else {
+                sessionStorage.setItem(`vote_check${index}`, 'false');
+            }
+            questionVote(roomid, qid.textContent, checkBox.checked, (response) => {
+                voteNum.innerHTML = response.payload.votes
+            });
+        }
+
+        function sendRequest(body, callback) {
+            try {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (request.readyState === XMLHttpRequest.DONE) {
+                        if (request.status === 200) {
+                            var response = JSON.parse(request.response);
+                            console.log(response);
+                            callback(response);
+                        } else {
+                            // console.log(request.response);
+                        }
+                    }
+                };
+
+                request.open('POST', '/api');
+                request.setRequestHeader("Content-Type", "application/json");
+                request.send(JSON.stringify(body));
+                request.timeout = 10000;
+                request.onerror = () => { }
+                request.onabort = function () { }
+            } catch (error) {
+                console.error(error)
+            }
+            
+        }
+
+
+        function addQuestion(roomid, userName, text, is_checked, callback) {
+            var reqJson = {
+                "cmd": "addquestion",
+                "payload": {
+                    "roomid": roomid,
+                    "userName": userName,
+                    "text": text,
+                    "isSecret": is_checked
+                }
+            }
+
+            sendRequest(reqJson, callback);
+        }
+
+        function getList(roomid, callback) {
+            reqJson = {
+                "cmd": "list",
+                "payload": {
+                    "roomid": roomid
+                }
+            }
+
+            sendRequest(reqJson, callback);
+        }
+
+        function getRoomName(room_id, callback) {
+            reqJson = {
+                "cmd": "getRoomName",
+                "payload": {
+                    "roomid": roomid,
+                }
+            }
+
+            sendRequest(reqJson, callback);
+        }
+
+        function questionVote(room_id, qid, isChecked, callback) {
+            reqJson = {
+                "cmd": "questionVote",
+                "payload": {
+                    "roomid": roomid,
+                    "qid": qid,
+                    "isChecked": isChecked
+                }
+            }
+
+            sendRequest(reqJson, callback);
+        }
+
+
+    </script>
+
+</body>
+
+</html>
